@@ -1,0 +1,34 @@
+# Данный workflow демонстрирует запись в другой репозиторий
+
+name: Запись в другой репозиторий
+
+on:
+  workflow_dispatch:
+
+jobs:
+  RABOTA:
+    runs-on: ubuntu-latest
+    name: Демонстрация использования собственного токена
+    steps:
+    - name: Модифицируем другой репозиторий
+      run: |
+        git clone https://github.com/GitHubExperiments/target target_repo
+        NOW=$(date)
+        echo $NOW >> target_repo/result.txt
+        git config --global user.email [бот]@users.noreply.github.com
+        git config --global user.name [Бот]
+        cd target_repo
+        git add -A
+        git commit -m "Update $NOW" || :
+
+        # Можно авторизоваться разными способами
+        # https://github.blog/2012-09-21-easier-builds-and-deployments-using-git-over-https-and-oauth/
+        git push https://${{secrets.MY_TOKEN}}@github.com/GitHubExperiments/target
+        git push https://${{secrets.MY_TOKEN}}:x-oauth-basic@github.com/GitHubExperiments/target
+        git push https://any_user_name:${{secrets.MY_TOKEN}}@github.com/GitHubExperiments/target
+        git push https://.:${{secrets.MY_TOKEN}}@github.com/GitHubExperiments/target
+
+        # Этот способ вызывает warning: redirecting to https://github.com/GitHubExperiments/target/
+        git push https://${{secrets.MY_TOKEN}}:@github.com/GitHubExperiments/target
+
+        cd ..
