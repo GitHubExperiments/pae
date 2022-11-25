@@ -12,3 +12,9 @@
 7) Нажмите "Run workflow" на [данной страничке](../../actions/workflows/main.yml)
 
 P.S. Обратите внимание, что авторизация с использованием PAT отличается от авторизации с использованием `secrets.GITHUB_TOKEN`.
+
+---------
+
+Обновление:
+
+Теперь GitHub позволяет создавать токены, имеющие доступ только к конкретным репозиториям: <https://github.blog/2022-10-18-introducing-fine-grained-personal-access-tokens-for-github>
